@@ -22,7 +22,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class SurviveOutbreak extends Game {
     public static final int V_WIDTH = 1920;
-    public static final int V_HEIGHT = 1080;
+    public static final int V_HEIGHT = 1088;
+    public static final float PPM = 100; // SCALE OF OBJECTS
 
     //private OrthographicCamera camera;
     public SpriteBatch batch;

@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -41,7 +42,7 @@ public class MainMenuScreen implements Screen {
 
     private TmxMapLoader maploader;
     private TiledMap map;
-    private OrthoCachedTiledMapRenderer renderer;
+    private OrthogonalTiledMapRenderer renderer;
 
     public MainMenuScreen(final SurviveOutbreak game) {
         this.game = game;
@@ -54,17 +55,16 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(gamePort);
 
 
-
-        //Gdx.input.setInputProcessor(stage);
+        
         hud = new Hud(game.batch);
 
         final TextButton button = new TextButton("Click me", skin, "default");
         button.setWidth(200f);
         button.setHeight(20f);
-        button.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 - 10f);
+        button.setPosition(gamePort.getWorldWidth() /2 - 100f, gamePort.getWorldHeight()/2 - 10f);
 
         game.fontParameter.size = 30;
-        BitmapFont font30 =game.fontGenerator.generateFont(game.fontParameter);
+        BitmapFont font30 = game.fontGenerator.generateFont(game.fontParameter);
 
         button.addListener(new ClickListener(){
             @Override
