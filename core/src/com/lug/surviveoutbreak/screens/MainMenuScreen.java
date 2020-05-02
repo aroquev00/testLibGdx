@@ -10,12 +10,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -47,7 +49,17 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final SurviveOutbreak game) {
         this.game = game;
 
-        skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
+        skin = new Skin();
+
+        game.fontParameter.size = 30;
+        BitmapFont font30 = game.fontGenerator.generateFont(game.fontParameter);
+        skin.add("gloria", font30);
+
+        skin.addRegions(new TextureAtlas("skins/skin-test.atlas"));
+        skin.load(Gdx.files.internal("skins/skin-test.json"));
+
+        //skin = new Skin(Gdx.files.internal("skins/skin-test.json"));
+        System.out.println("Got here");
         camera = new OrthographicCamera();
         gamePort = new FitViewport(SurviveOutbreak.V_WIDTH, SurviveOutbreak.V_HEIGHT, camera);
         //camera.setToOrtho(false, 800, 480);
@@ -59,12 +71,12 @@ public class MainMenuScreen implements Screen {
         hud = new Hud(game.batch);
 
         final TextButton button = new TextButton("Click me", skin, "default");
+        //final Button button = new Button(skin);
         button.setWidth(200f);
-        button.setHeight(20f);
+        button.setHeight(50f);
         button.setPosition(gamePort.getWorldWidth() /2 - 100f, gamePort.getWorldHeight()/2 - 10f);
 
-        game.fontParameter.size = 30;
-        BitmapFont font30 = game.fontGenerator.generateFont(game.fontParameter);
+
 
         button.addListener(new ClickListener(){
             @Override
@@ -120,8 +132,8 @@ public class MainMenuScreen implements Screen {
     public void handleInput(float dt) {
         // this is from mario
         if (Gdx.input.isTouched()) {
-            game.setScreen(new PlayScreen(game));
-            dispose();
+            //game.setScreen(new PlayScreen(game));
+            //dispose();
         }
     }
 

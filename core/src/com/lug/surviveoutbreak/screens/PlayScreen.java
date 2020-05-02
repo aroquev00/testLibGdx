@@ -16,6 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import com.lug.surviveoutbreak.Sprites.Hero;
 import com.lug.surviveoutbreak.SurviveOutbreak;
 import com.lug.surviveoutbreak.scenes.Hud;
 
@@ -39,6 +41,7 @@ public class PlayScreen implements Screen {
 
     Texture texture;
 
+    private Hero hero;
 
 
     public PlayScreen(SurviveOutbreak game) {
@@ -46,12 +49,9 @@ public class PlayScreen implements Screen {
 
         // create cam used to follow player through the world.
         gameCam = new OrthographicCamera();
-        //gameCam.setToOrtho(false, 120, 68);
 
         // create a FitViewport to maintain visual aspect ratio despire screen
-
         gamePort = new FitViewport(SurviveOutbreak.V_WIDTH, SurviveOutbreak.V_HEIGHT, gameCam);
-        //gamePort = new FitViewport(120, 68, gameCam);
 
         // create game HUD for score/timers/level info
         hud = new Hud(game.batch);
@@ -60,13 +60,10 @@ public class PlayScreen implements Screen {
         maploader = new TmxMapLoader();
         map = maploader.load("tileMaps/STO.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
-        System.out.println("Error");
 
         // initially set gamecam to be centered correctly at middle of screen
-        System.out.println(gamePort.getWorldWidth());
-        System.out.println(gamePort.getWorldHeight());
-        //gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-        gameCam.position.set(300, 200, 0);
+        gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
+
 
         world = new World(new Vector2(0,0), true);
         b2dr = new Box2DDebugRenderer();
@@ -77,8 +74,8 @@ public class PlayScreen implements Screen {
         Body body;
 
         // create walls bodies/fixtures
-        /*
-        for (MapObject object : map.getLayers().get(0).getObjects().getByType(RectangleMapObject.class)) {
+
+        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
@@ -91,7 +88,7 @@ public class PlayScreen implements Screen {
             body.createFixture(fdef);
         }
 
-         */
+
 
         // create objects bodies/fixtures
         /*
@@ -110,12 +107,23 @@ public class PlayScreen implements Screen {
 
          */
 
+        hero = new Hero(world);
+
         texture = new Texture("enemigo.png");
+
+
     }
 
     @Override
     public void show() {
 
+    }
+
+    public void handleInput(float dt) {
+        // this is from mario game example to move camera across map
+        if (Gdx.input.isTouched()) {
+            //gameCam.position.x += 100 * dt;
+        }
     }
 
     public void update (float dt) {
@@ -127,20 +135,13 @@ public class PlayScreen implements Screen {
         renderer.setView(gameCam);
     }
 
-    public void handleInput(float dt) {
-        // this is from mario game example to move camera across map
-        if (Gdx.input.isTouched()) {
-            //gameCam.position.x += 100 * dt;
-        }
-    }
 
     @Override
     public void render(float delta) {
         update(delta);
 
-        Gdx.gl.glClearColor(1, 0, 0 , 1);
+        Gdx.gl.glClearColor(0, 0, 0 , 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         renderer.render();
 

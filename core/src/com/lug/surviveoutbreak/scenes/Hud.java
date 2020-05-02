@@ -39,8 +39,8 @@ public class Hud {
         stage = new Stage(viewport, sb);
 
         Table table = new Table();
-        table.top();
-        table.setFillParent(true);
+        table.top();  // to go to the top of the table (and screen)
+        table.setFillParent(true); // make the table be the size of the screen
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GloriaHallelujah-Regular.ttf"));
         fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
