@@ -13,7 +13,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -27,6 +31,8 @@ public class MainMenuScreen implements Screen {
     private SurviveOutbreak game;
 
     private OrthographicCamera camera;
+
+    private Skin skin;
     private Viewport gamePort;
 
     private Stage stage;
@@ -40,15 +46,36 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final SurviveOutbreak game) {
         this.game = game;
 
+        skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
         camera = new OrthographicCamera();
         gamePort = new FitViewport(SurviveOutbreak.V_WIDTH, SurviveOutbreak.V_HEIGHT, camera);
         //camera.setToOrtho(false, 800, 480);
-        stage = new Stage(new ScreenViewport());
+
+        stage = new Stage(gamePort);
+
+
+
         //Gdx.input.setInputProcessor(stage);
         hud = new Hud(game.batch);
 
+        final TextButton button = new TextButton("Click me", skin, "default");
+        button.setWidth(200f);
+        button.setHeight(20f);
+        button.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 - 10f);
+
         game.fontParameter.size = 30;
         BitmapFont font30 =game.fontGenerator.generateFont(game.fontParameter);
+
+        button.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                button.setText("You clicked the button");
+            }
+        });
+
+        stage.addActor(button);
+
+        Gdx.input.setInputProcessor(stage);
 
         /*
         maploader = new TmxMapLoader();
@@ -73,13 +100,14 @@ public class MainMenuScreen implements Screen {
         hud.stage.draw();
 
 
-        /*
+
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to SurviveOutbreak!!! ", 100, 150);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
+        stage.draw();
+        //game.font.draw(game.batch, "Welcome to SurviveOutbreak!!! ", 100, 150);
+        //game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
         game.batch.end();
 
-         */
+
 
 
     }
