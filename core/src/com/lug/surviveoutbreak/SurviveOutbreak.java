@@ -1,5 +1,7 @@
 package com.lug.surviveoutbreak;
 
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.lug.surviveoutbreak.screens.MainMenuScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -19,17 +21,30 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class SurviveOutbreak extends Game {
+    public static final int V_WIDTH = 1920;
+    public static final int V_HEIGHT = 1080;
 
     //private OrthographicCamera camera;
     public SpriteBatch batch;
+
+    public FreeTypeFontGenerator fontGenerator;
+    public FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
+
+
     public BitmapFont font;
 
     private Stage stage;
 
     @Override
     public void create() {
+
+
         batch = new SpriteBatch();
         font = new BitmapFont();
+
+        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GloriaHallelujah-Regular.ttf"));
+        fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
         //stage = new Stage(new ScreenViewport());
         this.setScreen(new MainMenuScreen(this));
 
@@ -109,6 +124,6 @@ public class SurviveOutbreak extends Game {
         batch.dispose();
         font.dispose();
         screen.dispose();
-
+        fontGenerator.dispose();
     }
 }
